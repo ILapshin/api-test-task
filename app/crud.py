@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from . import schemas, models
+from .hashing import get_password_hash
 
 def add_file_info(db: Session, request: schemas.FileMetadataBase):
     new_file_info = models.FileMetadata(
@@ -33,3 +34,20 @@ def remove_file_info(db: Session, id: int):
     file_info.delete(synchronize_session=False)
     db.commit()
     return 'removed'
+
+
+def create_user(db: Session, request: schemas.UserBase):
+    hashed_password = get_password_hash(request.password)
+    new_user = models.User(
+        name=request.name, 
+        email=request.email, 
+        hashed_password=hashed_password
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+
+def get_user(db: Session, id: int):
+    return db.query(models.User).filter(models.User.id == id).first()

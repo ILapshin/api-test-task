@@ -9,4 +9,4 @@ API documentation (created automatically by the FastAPI) is available at /docs o
 The service allows to upload *.csv files and download with additional filters and sorting queries.
 Files are stored on the server as separated files of *.csv format. Files metadata is stored in sqlite database.
 
-File request queries are peocessed by Pandas library.
+File request queries are processed by Pandas library.

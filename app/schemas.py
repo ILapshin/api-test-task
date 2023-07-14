@@ -8,3 +8,12 @@ class FileMetadataBase(BaseModel):
 
 class FileMetadata(FileMetadataBase):
     id: int
+
+class UserBase(BaseModel):
+    name: str
+    email: str
+    password: str
+
+class User(BaseModel):
+    name: str
+    email: str
