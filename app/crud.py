@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from . import schemas, models
-from .hashing import get_password_hash
+from .security import get_password_hash
 
 def add_file_info(db: Session, request: schemas.FileMetadataBase):
     new_file_info = models.FileMetadata(
@@ -51,3 +51,7 @@ def create_user(db: Session, request: schemas.UserBase):
 
 def get_user(db: Session, id: int):
     return db.query(models.User).filter(models.User.id == id).first()
+
+
+def get_user_by_name(db: Session, username: str):
+    return db.query(models.User).filter(models.User.name == username).first()

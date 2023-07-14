@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String
 
 from .database import Base
 
+
 class FileMetadata(Base):
     __tablename__ = 'file_metadata'
 

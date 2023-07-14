@@ -3,4 +3,5 @@ uvicorn
 sqlalchemy
 pydentic
 pandas
-"passlib[bcrypt]"
+passlib[bcrypt]
+python-jose

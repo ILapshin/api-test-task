@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
-from .. import schemas, models, crud
+from .. import schemas, crud
 from ..database import get_db
 
 router = APIRouter(
@@ -12,6 +12,14 @@ router = APIRouter(
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.User)
 def create_user(request: schemas.UserBase, db: Session = Depends(get_db)):
+    user = crud.get_user_by_name(db=db, username=request.name)
+
+    if user:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE,
+            detail=f'User with name {request.name} already exists'
+        )
+    
     return crud.create_user(db=db, request=request)
 
 

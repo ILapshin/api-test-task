@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 from .. import csv_handler, crud, schemas
 from ..database import get_db
 from ..checksum import get_checksum
+from ..security import get_current_user
 
 
 router = APIRouter(
@@ -22,7 +23,11 @@ router = APIRouter(
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.FileMetadata)
-async def upload_file(file: UploadFile, db: Session = Depends(get_db)):
+async def upload_file(
+    file: UploadFile, 
+    db: Session = Depends(get_db),
+    current_user: schemas.User = Depends(get_current_user)
+):
 
     filename = file.filename
     
@@ -62,7 +67,11 @@ async def upload_file(file: UploadFile, db: Session = Depends(get_db)):
 
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-async def remove_file(id: int, db: Session = Depends(get_db)):
+async def remove_file(
+    id: int, 
+    db: Session = Depends(get_db),
+    current_user: schemas.User = Depends(get_current_user)
+):
     file_info = crud.get_file_info(id=id, db=db)
 
     if not file_info:
@@ -81,6 +90,7 @@ async def remove_file(id: int, db: Session = Depends(get_db)):
 async def download_file(
     id: int, 
     db: Session = Depends(get_db),
+    current_user: schemas.User = Depends(get_current_user),
     sort: Annotated[list[str] | None, Query()] = None,
     filter: Annotated[list[str] | None, Query()] = None
 ):
