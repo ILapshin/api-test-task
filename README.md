@@ -1,6 +1,6 @@
 # CSV Files Handling Web Service
 
-## Dev Detailes
+## Dev Notes
 
 Developed using FastAPI framework. 
 
@@ -12,3 +12,7 @@ Files are stored on the server as separated files of *.csv format. Files metadat
 User authentication is implemented via WJT token and OAuth2.
 
 File request queries are processed by Pandas library.
+
+## Testing
+
+All api endpoint are covered by unit test via pytest.
