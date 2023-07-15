@@ -5,3 +5,4 @@ pydentic
 pandas
 passlib[bcrypt]
 python-jose
+python-multipart
