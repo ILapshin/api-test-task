@@ -1,7 +1,6 @@
 .venv/
 __pycache__/
 uploads/
-examples/
 .pytest_cache/
 .vscode
 *.db
