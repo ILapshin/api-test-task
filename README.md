@@ -20,7 +20,7 @@ Or copy source code and unpack the archive to the destination folder.
 1. Navigate to repository root folder. Create and activate python virtual environment:
 
 ```
-python -m venv .venv
+python3 -m venv .venv
 source myvenv/bin/activate
 ```
 
