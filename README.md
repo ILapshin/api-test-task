@@ -50,7 +50,7 @@ docker build -t csv-web-app .
 
 2. Create docker volume for storing permanent data:
 ```
-docker volume create scv-storage
+docker volume create csv-storage
 ```
 
 3. Run docker container:
