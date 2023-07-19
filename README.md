@@ -21,7 +21,7 @@ Or copy source code and unpack the archive to the destination folder.
 
 ```
 python3 -m venv .venv
-source myvenv/bin/activate
+source .venv/bin/activate
 ```
 
 2. Install requirements:
