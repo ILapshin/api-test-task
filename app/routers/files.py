@@ -10,6 +10,7 @@ from fastapi import (
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
+from .utils import parse_metadata
 from .. import csv_handler, crud, schemas
 from ..database import get_db
 from ..checksum import get_checksum
@@ -53,7 +54,7 @@ async def upload_file(
     bytes_data = await file.read()
     file_checksum = get_checksum(bytes_data)
 
-    file_info = schemas.FileMetadataBase(
+    file_metadata = schemas.FileMetadataBase(
         name=filename,
         size=file.size,
         csv_schema=','.join(csv_head),
@@ -61,9 +62,10 @@ async def upload_file(
     )
 
     # Adding file info to database
-    new_file_info = crud.add_file_info(db, file_info)
+    new_file_metadata = crud.add_file_metadata(db, file_metadata)
+    new_file_metadata = parse_metadata(new_file_metadata)
 
-    return new_file_info
+    return new_file_metadata
 
 
 @router.delete('/{filename}', status_code=status.HTTP_204_NO_CONTENT)

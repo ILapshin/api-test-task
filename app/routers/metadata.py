@@ -7,6 +7,7 @@ from fastapi import (
 from sqlalchemy.orm import Session
 from typing import List
 
+from .utils import parse_metadata
 from .. import crud, schemas
 from ..database import get_db
 from ..security import get_current_user
@@ -23,7 +24,8 @@ async def get_metadata_all(
     db: Session = Depends(get_db), 
     current_user: schemas.User = Depends(get_current_user)
 ):    
-    return crud.get_file_metadata_all(db=db)
+    metadata = crud.get_file_metadata_all(db=db)
+    return [parse_metadata(item) for item in metadata]
 
 
 @router.get('/{filename}', status_code=status.HTTP_200_OK, response_model=schemas.FileMetadata)
@@ -37,5 +39,5 @@ async def get_metadata(
     if not file_metadata:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     
-    return file_metadata
+    return parse_metadata(file_metadata)
 

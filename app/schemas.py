@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 class FileMetadataBase(BaseModel):
     name: str
@@ -8,7 +9,7 @@ class FileMetadataBase(BaseModel):
 
 
 class FileMetadata(FileMetadataBase):
-    id: int
+    csv_schema: List[str] = []
 
 
 class UserBase(BaseModel):

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from . import schemas, models
 from .security import get_password_hash
 
-def add_file_info(db: Session, request: schemas.FileMetadataBase):
+def add_file_metadata(db: Session, request: schemas.FileMetadataBase):
     new_file_info = models.FileMetadata(
         name=request.name,
         size=request.size,
