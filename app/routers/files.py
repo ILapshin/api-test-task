@@ -39,7 +39,7 @@ async def upload_file(
         )
     
     # Checking name collisions
-    if crud.search_name(db=db, filename=filename):
+    if crud.get_file_metadata_by_filename(db=db, filename=filename):
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=f'File with name {filename} is already uploaded'
@@ -66,35 +66,35 @@ async def upload_file(
     return new_file_info
 
 
-@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
+@router.delete('/{filename}', status_code=status.HTTP_204_NO_CONTENT)
 async def remove_file(
-    id: int, 
+    filename: str, 
     db: Session = Depends(get_db),
     current_user: schemas.User = Depends(get_current_user)
 ):
-    file_info = crud.get_file_info(id=id, db=db)
+    file_info = crud.get_file_metadata_by_filename(db=db, filename=filename)
 
     if not file_info:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)    
     
     filename = file_info.name
     
-    crud.remove_file_info(db=db, id=id)
+    crud.remove_file_metadata(db=db, filename=filename)
 
     csv_handler.remove_csv(filename=filename)
 
     return f'File {filename} removed'
 
 
-@router.get('/{id}', status_code=status.HTTP_200_OK)
+@router.get('/{filename}', status_code=status.HTTP_200_OK)
 async def download_file(
-    id: int, 
+    filename: str, 
     db: Session = Depends(get_db),
     current_user: schemas.User = Depends(get_current_user),
     sort: Annotated[list[str] | None, Query()] = None,
     filter: Annotated[list[str] | None, Query()] = None
 ):
-    file_info = crud.get_file_info(id=id, db=db)
+    file_info = crud.get_file_metadata_by_filename(db=db, filename=filename)
 
     if not file_info:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) 

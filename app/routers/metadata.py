@@ -19,23 +19,23 @@ router = APIRouter(
 
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[schemas.FileMetadata])
-async def get_all_metadata(
+async def get_metadata_all(
     db: Session = Depends(get_db), 
     current_user: schemas.User = Depends(get_current_user)
 ):    
-    return crud.get_file_info_all(db=db)
+    return crud.get_file_metadata_all(db=db)
 
 
-@router.get('/{id}', status_code=status.HTTP_200_OK, response_model=schemas.FileMetadata)
+@router.get('/{filename}', status_code=status.HTTP_200_OK, response_model=schemas.FileMetadata)
 async def get_metadata(
-    id: int, 
+    filename: str, 
     db: Session = Depends(get_db), 
     current_user: schemas.User = Depends(get_current_user)
 ): 
-    file_info = crud.get_file_info(db=db, id=id)
+    file_metadata = crud.get_file_metadata_by_filename(db=db, filename=filename)
     
-    if not file_info:
+    if not file_metadata:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     
-    return file_info
+    return file_metadata
 
