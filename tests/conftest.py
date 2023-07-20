@@ -10,7 +10,7 @@ from app.main import app
 from app.security import create_access_token
 
 
-DATABASE_URL_TEST = 'sqlite:///./database_test.db'
+DATABASE_URL_TEST = 'sqlite:///database_test.db'
 
 engine_test = create_engine(
     DATABASE_URL_TEST,

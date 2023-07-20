@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from . import schemas, models
 from .security import get_password_hash
 
-def add_file_info(db: Session, request: schemas.FileMetadataBase):
+def add_file_metadata(db: Session, request: schemas.FileMetadataBase):
     new_file_info = models.FileMetadata(
         name=request.name,
         size=request.size,
@@ -17,21 +17,21 @@ def add_file_info(db: Session, request: schemas.FileMetadataBase):
     return new_file_info
 
 
-def get_file_info(db: Session, id: int):
+def get_file_metadata(db: Session, id: int):
     return db.query(models.FileMetadata).filter(models.FileMetadata.id == id).first()
 
 
-def get_file_info_all(db: Session):
+def get_file_metadata_all(db: Session):
     return db.query(models.FileMetadata).all()
 
 
-def search_name(db: Session, filename: str):
+def get_file_metadata_by_filename(db: Session, filename: str):
     return db.query(models.FileMetadata).filter(models.FileMetadata.name == filename).first()
 
 
-def remove_file_info(db: Session, id: int):
-    file_info = db.query(models.FileMetadata).filter(models.FileMetadata.id == id)    
-    file_info.delete(synchronize_session=False)
+def remove_file_metadata(db: Session, filename: str):
+    file_metadata = db.query(models.FileMetadata).filter(models.FileMetadata.name == filename)    
+    file_metadata.delete(synchronize_session=False)
     db.commit()
     return 'removed'
 

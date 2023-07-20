@@ -72,10 +72,8 @@ File request queries are processed by Pandas library.
 
 
 ### Possible Improvements
-- Security sensitive data must be moved to enviroment variables.
+- Security sensitive data must be moved to environment variables.
 - Paths to database and uploaded CSV files directory are hard coded. Should be implemented as config or environment variables.
-- CSV files are queried by ID, it would be better to implement query by file name.
-- List of CSV columns is better to be returned as a list, not as a single string.
 - Get existing user endpoint is for demo purposes only, should be removed in production.
 
 ## Testing

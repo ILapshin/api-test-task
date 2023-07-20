@@ -11,7 +11,7 @@ def test_upload_file(prepare_database, access_token):
 
 
 def test_download_file(prepare_database, access_token):
-    response = client.get('/files/1', headers={
+    response = client.get('/files/dummy.csv', headers={
         'Authorization': f'Bearer {access_token}'
     })
     assert response.status_code == 200
@@ -25,14 +25,14 @@ def test_get_all_metadata(prepare_database, access_token):
 
 
 def test_get_metadata(prepare_database, access_token):
-    response = client.get('/metadata/1', headers={
+    response = client.get('/metadata/dummy.csv', headers={
         'Authorization': f'Bearer {access_token}'
     })
     assert response.status_code == 200
     
 
 def test_remove_file(prepare_database, access_token):
-    response = client.delete('/files/1', headers={
+    response = client.delete('/files/dummy.csv', headers={
         'Authorization': f'Bearer {access_token}'
     })
     assert response.status_code == 204
